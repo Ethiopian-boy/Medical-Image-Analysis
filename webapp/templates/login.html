@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Login{% endblock %}
+
+{% block content%}
+ 
+<form method="POST" enctype="multipart/form-data" autocomplete="off">
+    <h3 align="center">Login</h3>
+
+    <div class="form-group">
+         <label for="email"><i class="fas fa-envelope"></i> Email Address</label>
+         <input 
+               type="email" 
+               id="email" 
+               class="form-control" 
+               name="email" 
+               placeholder="Enter email address" 
+          />
+    </div>
+    
+     <div class="form-group">
+        <label for="password"><i class="fas fa-lock"></i> Password</label>
+        <input 
+               type="password" 
+               id="password" 
+               class="form-control" 
+               name="password"
+               placeholder="Enter your password" 
+          />
+   </div>
+
+   <br/>
+
+   <button type="submit" class="btn btn-primary">login</button>
+
+   <br/>
+   <br>
+</form>
+
+{% endblock%}
