@@ -1,8 +1,11 @@
-from flask import Blueprint, render_template, request, flash, jsonify
+from flask import Blueprint, render_template, request, flash, jsonify, redirect, url_for
 from flask_login import login_required, current_user
 from .models import Note
 from . import db
 import json
+from werkzeug.utils import secure_filename
+import os
+from . import *
 
 views = Blueprint('views', __name__)
 
@@ -36,3 +39,53 @@ def delete_note():
             db.session.commit()
 
     return jsonify({})
+
+
+@views.route('/about')
+def about():
+    return render_template("about.html")
+
+
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'gif'])
+
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+
+#@views.route('/upload')
+#def upload_form():
+#    return render_template('upload.html')
+
+@views.route("/upload", methods=["POST", "GET"])
+@login_required
+def upload():
+    if 'files[]' not in request.files:
+        flash('No file selected')
+        return redirect(url_for("views.home"))
+    files = request.files.getlist('files[]')
+    file_names = []
+    for file in files:
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file_names.append(filename)
+            from main import app
+            basedir = os.path.abspath(os.path.dirname(__file__))
+            file.save(os.path.join(basedir,
+                                   app.config['UPLOAD_FOLDER'], filename))
+        else:
+            flash('Allowed image types are -> png, jpg, jpeg, gif')
+            return redirect(request.url)
+
+    return render_template('home.html', filenames=file_names)
+
+
+@views.route('/display/<filename>')
+def display_image(filename):
+    print('display_image filename: ' + filename)
+    return redirect(url_for('static', filename='uploads/' + filename), code=301)
+
+@views.route('/delete-image', methods=['POST'])
+def delete_image(filename):
+    del(filename)
+    return redirect(url_for('static', filename='uploads/' + filename), code=301)

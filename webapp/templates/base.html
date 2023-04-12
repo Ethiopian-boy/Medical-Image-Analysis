@@ -19,10 +19,13 @@
             </button>
             <div class="navbar-collapse collapse" id="navbar">
                 <div class="navbar-nav">
-                    {% if user.is_authenticated %}
+                    {% if current_user.is_authenticated %}
+                    <a class="nav-item nav-link" id="about" href="/about"><i class="fas fa-book-open"></i> About</a>
                     <a class="nav-item nav-link" id="logout" href="/logout"> Logout</a>
                     <a class="nav-item nav-link" id="home" href="/"> Home</a>
+                    
                     {% else  %}
+                    <a class="nav-item nav-link" id="about" href="/about"><i class="fas fa-book-open"></i> About</a>
                     <a class="nav-item nav-link" id="login" href="/login"> Login</a>
                     <a class="nav-item nav-link" id="signUp" href="/signup"> sign up</a>
                     {% endif %}
