@@ -12,7 +12,7 @@ cnx = mysql.connector.connect(user='admin', database='ecom', password='Elviskhor
 cursor = cnx.cursor(buffered=True)
 def create_app():
     app = Flask(__name__)
-
+    app.config['SECRET_KEY'] = 'medical image analysis'
 
     
     from .views import views
@@ -28,6 +28,9 @@ def create_app():
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
 
+    @login_manager.user_loader
+    def load_user(id):
+        return
     
     return app
 

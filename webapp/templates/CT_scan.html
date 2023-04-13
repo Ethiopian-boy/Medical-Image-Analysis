@@ -8,10 +8,10 @@
     <h1>CT-scan Diseases</h1>
     <p>List of Diseases:</p>
     <ul>
-        <li><a href="url_for({{ "views.brainStroke"}})"> Brain Stroke</a></li>
-        <li> <a href="url_for({{ "views.breastCancer"}})"> Breast Cancer</a> </li>
-        <li><a href="url_for({{ "views.d3"}})"> Lung Cancer</a> </li>
-        <li><a href="url_for({{ "views.brainTumor"}})"> Brain Tumor </a> </li>
+        <li><a href="{{url_for('views.brainStroke')}}"> Brain Stroke</a></li>
+        <li> <a href="{{ url_for('views.breastCancer')}}"> Breast Cancer</a> </li>
+        <li><a href="{{ url_for('views.lungCancer')}}"> Lung Cancer</a> </li>
+        <li><a href="{{ url_for('views.brainTumor')}}"> Brain Tumor </a> </li>
     </ul>
 </body>
 </html>
