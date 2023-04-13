@@ -1,33 +1,17 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="utf-8">
     <title>MRI Diseases</title>
-    <script>
-        function redirectToAnalysePage() {
-            var selectedDisease = document.getElementById("disease").value;
-            if (selectedDisease) {
-                window.location.href = "analyse.html?disease=" + encodeURIComponent(selectedDisease);
-            }
-        }
-    </script>
 </head>
 <body>
     <h1>CT-scan Diseases</h1>
     <p>List of Diseases:</p>
     <ul>
-        <li>Brain Stroke</li>
-        <li>Breast Cancer</li>
-        <li>Lung Cancer</li>
-        <li>Brain Tumor</li>
+        <li><a href="url_for({{ "views.d1"}})" Brain Stroke</a></li>
+        <li> <a href="url_for({{ "views.d2"}})" Breast Cancer</a> </li>
+        <li><a href="url_for({{ "views.d3"}})" Lung Cancer</a> </li>
+        <li><a href="url_for({{ "views.d4"}})" Brain Tumor </a> </li>
     </ul>
-    <label for="disease">Choose a Disease:</label>
-    <select id="disease" name="disease">
-        <option value="">-- Select a disease --</option>
-        <option value="brain-stroke">Brain Stroke</option>
-        <option value="breast-cancer">Breast Cancer</option>
-        <option value="lung-cancer">Lung Cancer</option>
-        <option value="brain-tumor">Brain Tumor</option>
-    </select><br>
-    <input type="button" value="Analyse" onclick="redirectToAnalysePage()">
 </body>
 </html>
