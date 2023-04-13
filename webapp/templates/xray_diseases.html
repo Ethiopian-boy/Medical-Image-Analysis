@@ -8,9 +8,9 @@
     <h1>X-ray Diseases</h1>
     <p>List of Diseases:</p>
     <ul>
-        <li><a href="url_for({{ "views.d5"}})" Bone Fracture </a> </li>
-        <li> <a href="url_for({{ "views.d6"}})" Pneumonia</a> </li>
-        <li><a href="url_for({{ "views.d7"}})" Tuberculosis </a></li>
+        <li><a href="{{ url_for('views.bones')}}"> Bone Fracture </a> </li>
+        <li> <a href="{{ url_for('views.pneumonia')}}"> Pneumonia</a> </li>
+        <li><a href="{{ url_for('views.tuberculosis')}}"> Tuberculosis </a></li>
     </ul>
 </body>
 </html>

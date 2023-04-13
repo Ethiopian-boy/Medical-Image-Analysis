@@ -6,38 +6,88 @@
 </head>
 <body>
     <h1>Medical Form</h1>
-    <form action="/submit" method="post">
-        <label for="patient-name">Patient Name:</label>
-        <input type="text" id="patient-name" name="patientName" required><br>
-        
-        <label for="age">Age:</label>
-        <input type="number" id="age" name="age" required><br>
-        
-        <label for="previous-medication">Previous Medication:</label>
-        <input type="text" id="previous-medication" name="previousMedication"><br>
-        <input type="button" value="Submit" onclick="redirectToDiseasesPage()">
-    </form>
+    <div class="row">
+                            <div class="col-md-8" style="border-radius: 20px">
 
-    <div style="padding:20px;">
-<h2>Upload multiple images</h2>
-<form method="post" action="/upload" enctype="multipart/form-data">
-    <dl>
-        <p>
-            <input type="file" name="files[]" multiple="true" autocomplete="off" required>
-        </p>
-    </dl>
-    <p>
-        <input type="submit" value="Submit">
-    </p>
-</form>
- 
-{% if filenames %}
-    {% for filename in filenames %}
-        <div style="padding:20px;float:left;">
-            <img width="500" src="{{ url_for('display_image', filename=filename) }}"> 
-        </div>
-    {% endfor %}
-{% endif %}
-</div>
+                                <div style="margin : auto">
+                                    <form  method="post" enctype="multipart/form-data">
+                                      <fieldset>
+                                        <div class="form-group">
+                                          <label for="name">Patient Name:</label>
+                                          <input type="text" id="name" name="name" class="form-control" required>
+                                        </div>
+                                        <div class="form-group">
+                                          <label for="desc">Age:</label>
+                                          <input type="number" id="age" name="age" class="form-control" required>
+                                        </div>
+
+                                        <div class="form-group">
+                                          <label for="image">Upload the scan here:</label>
+                                          <input type="file" id="image" name="image" class="form-control-file" onchange="previewImage()">
+                                        </div>
+                                          <div class="form-group">
+                                            </div>
+                                      </fieldset>
+                                      <button type="submit" class="btn btn-primary">Submit</button>
+                                    </form>
+
+                                </div>
+                            </div>
+                            <div class="col-md-4" style="border-radius: 20px">
+                                    <div class="col-md-12" style=" margin : auto">
+                                        <img id="preview" src="#" alt="Preview" style="max-width: 100%; max-height: 50%;">
+                                    </div>
+                            </div>
+
+                        </div>
+{#    <form action="/submit" method="post">#}
+{#        <label for="patient-name">Patient Name:</label>#}
+{#        <input type="text" id="patient-name" name="patientName" required><br>#}
+{#        #}
+{#        <label for="age">Age:</label>#}
+{#        <input type="number" id="age" name="age" required><br>#}
+{#        #}
+{#        <label for="previous-medication">Previous Medication:</label>#}
+{#        <input type="text" id="previous-medication" name="previousMedication"><br>#}
+{#        <input type="button" value="Submit" onclick="redirectToDiseasesPage()">#}
+{#    </form>#}
+{##}
+{#    <div style="padding:20px;">#}
+{#<h2>Upload multiple images</h2>#}
+{#<form method="post" action="/upload" enctype="multipart/form-data">#}
+{#    <dl>#}
+{#        <p>#}
+{#            <input type="file" name="files[]" multiple="true" autocomplete="off" required>#}
+{#        </p>#}
+{#    </dl>#}
+{#    <p>#}
+{#        <input type="submit" value="Submit">#}
+{#    </p>#}
+{#</form>#}
+{# #}
+{#{% if filenames %}#}
+{#    {% for filename in filenames %}#}
+{#        <div style="padding:20px;float:left;">#}
+{#            <img width="500" src="{{ url_for('display_image', filename=filename) }}"> #}
+{#        </div>#}
+{#    {% endfor %}#}
+{#{% endif %}#}
+{#</div>#}
 </body>
 </html>
+
+<script>
+function previewImage() {
+  var preview = document.querySelector('#preview');
+  var file = document.querySelector('#image').files[0];
+  var reader = new FileReader();
+
+  reader.addEventListener("load", function () {
+    preview.src = reader.result;
+  }, false);
+
+  if (file) {
+    reader.readAsDataURL(file);
+  }
+}
+</script>

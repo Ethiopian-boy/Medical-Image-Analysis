@@ -7,10 +7,17 @@ from werkzeug.utils import secure_filename
 import os
 from . import *
 
-views = Blueprint('views', __name__)
+from PIL import Image
+import io
+import numpy as np
+import tensorflow as tf
+import cv2
 
+views = Blueprint('views', __name__)
+cnx = mysql.connector.connect(user='admin', database='ecom', password='Elviskhorem12!?', host='127.0.0.1')
+cursor = cnx.cursor(buffered=True)
 @views.route('/', methods=['GET', 'POST'])
-@login_required
+
 def home():
     if request.method == 'POST':
         note = request.form.get('note')  # Gets the note from the HTML
@@ -95,6 +102,17 @@ def display_image(filename):
     print('display_image filename: ' + filename)
     return redirect(url_for('static', filename='uploads/' + filename), code=301)
 
+@views.route('/xray')
+def xray():
+    return render_template('xray_diseases.html')
+
+@views.route('/ctScan')
+def ctScan():
+    return render_template('CT_scan.html')
+
+@views.route('/photogenic')
+def photogenic():
+    return render_template('photogenic_disease.html')
 #@views.route('/delete-image', methods=['POST'])
 #def delete_image(filename):
     
@@ -107,3 +125,434 @@ def profile():
     profile = db.session.execute(
         'SELECT * FROM user WHERE id = :val', {'val': id})
     return render_template("profile.html", user=current_user, profile=profile)
+
+@views.route('/pneumonia', methods=['POST', 'GET'])
+def pneumonia():
+    model = tf.keras.models.load_model('/home/belvisk/Documents/models/pneumonia.h5')
+    if request.method == 'POST':
+        name = request.form['name']
+        age=request.form['age']
+        # Read the file from the request
+        file = request.files['image'].read()
+        filename = request.files['image'].filename
+        save_path = os.path.join('static/uploads', filename)
+        path = os.path.join('webapp', save_path)
+        with open(path, 'wb+') as f:
+            f.write(file)
+
+        # Convert the file to an image
+        img = Image.open(io.BytesIO(file))
+        img = img.convert('L')
+
+        # Resize the image to the input size expected by the model
+        img = img.resize((224, 224))
+
+        # Convert the image to a numpy array
+        x = np.array(img)
+        x = np.stack((x,) * 3, axis=-1)
+        x = tf.image.resize(x, [224, 224])
+        x = np.array(x)
+
+        # Normalize the pixel values
+        x = x / 255.0
+
+        # Add a batch dimension to the array
+        x = np.expand_dims(x, axis=0)
+
+        # Make the prediction
+        pred = model.predict(x)
+        threshold = 0.5
+        label = np.where(pred >= threshold, 1, 0)
+        result = int(label)
+        if result == 0:
+            text='The predictions are formal. There is no pneumonia detected'
+        elif result == 1:
+            output='Pneumonia'
+            text='PNEUMONIA detected!!!'
+        return redirect(url_for('views.result', text= text, output=output ))
+    return render_template('analayse.html')
+
+@views.route('result/<text>/<output>')
+def result(text, output):
+    query = "SELECT recommendation FROM image_analysis.recommendation WHERE disease_name=%s"
+    values = (output,)
+    cursor.execute(query, values)
+    recommendation = cursor.fetchone()
+    recommendation = recommendation[0].replace('\n', '<br>').replace('"', '')
+
+    return render_template('result.html', message=text, recommendation=recommendation)
+
+
+@views.route('/bones', methods=['POST', 'GET'])
+def bones():
+    model = tf.keras.models.load_model('/home/belvisk/Documents/models/bones.h5')
+    if request.method == 'POST':
+
+        # Read the file from the request
+        file = request.files['file'].read()
+
+        # Convert the file to an image
+        img = Image.open(io.BytesIO(file))
+        img = img.convert('L')
+
+        # Resize the image to the input size expected by the model
+        img = img.resize((224, 224))
+
+        # Convert the image to a numpy array
+        x = np.array(img)
+        x = np.stack((x,) * 3, axis=-1)
+        x = tf.image.resize(x, [224, 224])
+        x = np.array(x)
+
+        # Normalize the pixel values
+        x = x / 255.0
+
+        # Add a batch dimension to the array
+        x = np.expand_dims(x, axis=0)
+
+        # Make the prediction
+        pred = model.predict(x)
+        threshold = 0.5
+        label = np.where(pred >= threshold, 1, 0)
+        result = int(label)
+        if result == 0:
+            output='Fracture detected !!!'
+        elif result == 1:
+            output='Everything seems right'
+        return jsonify({'result': output})
+    return render_template('analayse.html')
+
+
+
+@views.route('/tuberculosis', methods=['POST', 'GET'])
+def tuberculosis():
+    model = tf.keras.models.load_model('/home/belvisk/Documents/models/tuberculosis.h5')
+    if request.method == 'POST':
+
+        # Read the file from the request
+        file = request.files['file'].read()
+
+        # Convert the file to an image
+        img = Image.open(io.BytesIO(file))
+        img = img.convert('L')
+
+        # Resize the image to the input size expected by the model
+        img = img.resize((320, 320))
+
+        # Convert the image to a numpy array
+        x = np.array(img)
+        x = np.stack((x,) * 3, axis=-1)
+        x = tf.image.resize(x, [320, 320])
+        x = np.array(x)
+
+        # Normalize the pixel values
+        x = x / 255.0
+
+        # Add a batch dimension to the array
+        x = np.expand_dims(x, axis=0)
+
+        # Make the prediction
+        pred = model.predict(x)
+        threshold = 0.5
+        label = np.where(pred >= threshold, 1, 0)
+        result = int(label)
+        if result == 0:
+            output='Everything seems right'
+        elif result == 1:
+            output='TUBERCULOSIS detected!!!'
+        return jsonify({'result': output})
+    return render_template('analayse.html')
+
+
+
+@views.route('/brainTumor', methods=['POST', 'GET'])
+def brainTumor():
+    model = tf.keras.models.load_model('/home/belvisk/Documents/models/brain-tumor.h5')
+    if request.method == 'POST':
+
+        # Read the file from the request
+        file = request.files['file'].read()
+
+        # Convert the file to an image
+        img = Image.open(io.BytesIO(file))
+        img = img.convert('L')
+
+        # Resize the image to the input size expected by the model
+        img = img.resize((150, 150))
+
+        # Convert the image to a numpy array
+        x = np.array(img)
+        x = np.stack((x,) * 3, axis=-1)
+        x = tf.image.resize(x, [150, 150])
+        x = np.array(x)
+
+        # Normalize the pixel values
+        x = x / 255.0
+
+        # Add a batch dimension to the array
+        x = np.expand_dims(x, axis=0)
+
+        # Make the prediction
+        pred = model.predict(x)
+        label = np.argmax(pred[0])
+        result = label
+        result=int(result)
+        if result == 0:
+            output = 'We think you have a GLIOAMA'
+        elif result==1:
+            output='We think you have a MENINGIOMA'
+        elif result==2:
+            output='No tumor detected'
+        elif result==3:
+            output='We think you have a PITUITARY'
+
+        return jsonify({'result': output})
+    return render_template('analayse.html')
+
+
+
+
+
+
+@views.route('/brainStroke', methods=['POST', 'GET'])
+def brainStroke():
+    model = tf.keras.models.load_model('/home/belvisk/Documents/models/brain_stroke_model.h5')
+    if request.method == 'POST':
+
+        # Read the file from the request
+        file = request.files['file'].read()
+
+        # Convert the file to an image
+        img = Image.open(io.BytesIO(file))
+        img = img.convert('L')
+
+        # Resize the image to the input size expected by the model
+        img = img.resize((224, 224))
+
+        # Convert the image to a numpy array
+        x = np.array(img)
+        x = np.stack((x,) * 3, axis=-1)
+        x = tf.image.resize(x, [224, 224])
+        x = np.array(x)
+
+        # Normalize the pixel values
+        x = x / 255.0
+
+        # Add a batch dimension to the array
+        x = np.expand_dims(x, axis=0)
+
+        # Make the prediction
+        pred = model.predict(x)
+        threshold = 0.5
+        label = np.argmax(pred)
+        result = int(label)
+        if result == 0:
+            output='Everything seems right'
+        elif result == 1:
+            output='brain STroke detected!!!'
+        return jsonify({'result': output})
+    return render_template('analayse.html')
+
+@views.route('/chestCancer', methods=['POST', 'GET'])
+def chestCancer():
+    model = tf.keras.models.load_model('/home/belvisk/Documents/models/chest_cancer_classifier.h5')
+    if request.method == 'POST':
+
+        # Read the file from the request
+        file = request.files['file'].read()
+
+        # Convert the file to an image
+        img = Image.open(io.BytesIO(file))
+        img = img.convert('RGB')
+
+        # Resize the image to the input size expected by the model
+        img = img.resize((256, 256))
+
+        # Convert the image to a numpy array
+        x = np.array(img)
+
+        # Normalize the pixel values
+        x = x / 255.0
+
+        # Add a batch dimension to the array
+        x = np.expand_dims(x, axis=0)
+
+        # Make the prediction
+        pred = model.predict(x)
+        label = np.argmax(pred)
+        result = label
+        result=int(result)
+        if result == 0:
+            output = 'We think you have a adenocarcinoma'
+        elif result==1:
+            output='We think you have a large_cell_carcinoma'
+        elif result==2:
+            output='normal'
+        elif result==3:
+            output='We think you have squamous_cell_carcinoma'
+
+        return jsonify({'result': output})
+    return render_template('analayse.html')
+
+
+
+@views.route('/breastCancer', methods=['POST', 'GET'])
+def breastCancer():
+    model = tf.keras.models.load_model('/home/belvisk/Documents/models/breast_cancer_classifier.h5')
+    if request.method == 'POST':
+
+        # Read the file from the request
+        file = request.files['file'].read()
+
+        # Convert the file to an image
+        img = Image.open(io.BytesIO(file))
+        img = img.convert('RGB')
+
+        # Resize the image to the input size expected by the model
+        img = img.resize((256, 256))
+
+        # Convert the image to a numpy array
+        x = np.array(img)
+
+        # Normalize the pixel values
+        x = x / 255.0
+
+        # Add a batch dimension to the array
+        x = np.expand_dims(x, axis=0)
+
+        # Make the prediction
+        pred = model.predict(x)
+        label = np.argmax(pred)
+        result = label
+        result=int(result)
+        if result == 0:
+            output = 'benign'
+        elif result==1:
+            output='malignant'
+
+
+        return jsonify({'result': output})
+    return render_template('analayse.html')
+
+
+@views.route('/leukemia', methods=['POST', 'GET'])
+def leukemia():
+    model = tf.keras.models.load_model('/home/belvisk/Documents/models/leukemia_model.h5')
+    if request.method == 'POST':
+
+        # Read the file from the request
+        file = request.files['file'].read()
+
+        # Convert the file to an image
+        img = Image.open(io.BytesIO(file))
+        img = img.convert('RGB')
+
+        # Resize the image to the input size expected by the model
+        img = img.resize((224, 224))
+
+        # Convert the image to a numpy array
+        x = np.array(img)
+
+        # Normalize the pixel values
+        x = x / 255.0
+
+        # Add a batch dimension to the array
+        x = np.expand_dims(x, axis=0)
+
+        # Make the prediction
+        pred = model.predict(x)
+        label = np.argmax(pred)
+        result = label
+        result=int(result)
+        if result == 0:
+            output = 'benign'
+        elif result==1:
+            output='pre'
+        elif result==2:
+            output='early'
+        elif result==3:
+            output='pro'
+
+
+        return jsonify({'result': output})
+    return render_template('analayse.html')
+
+
+@views.route('/lungCancer', methods=['POST', 'GET'])
+def lungCancer():
+    model = tf.keras.models.load_model('/home/belvisk/Documents/models/lung_cancer_model.h5')
+    if request.method == 'POST':
+
+        # Read the file from the request
+        file = request.files['file'].read()
+
+        # Convert the file to an image
+        img = Image.open(io.BytesIO(file))
+        img = img.convert('RGB')
+
+        # Resize the image to the input size expected by the model
+        img = img.resize((256, 256))
+
+        # Convert the image to a numpy array
+        x = np.array(img)
+
+        # Normalize the pixel values
+        x = x / 255.0
+
+        # Add a batch dimension to the array
+        x = np.expand_dims(x, axis=0)
+
+        # Make the prediction
+        pred = model.predict(x)
+        label = np.argmax(pred)
+        result = label
+        result=int(result)
+        if result == 0:
+            output = 'benign'
+        elif result==1:
+            output='malignant'
+        elif result==2:
+            output='normal'
+
+
+
+        return jsonify({'result': output})
+    return render_template('analayse.html')
+
+
+@views.route('/oralCancer')
+def oralCancer():
+    model = tf.keras.models.load_model('/home/belvisk/Documents/models/oral_cancer_model.h5')
+    if request.method == 'POST':
+
+        # Read the file from the request
+        file = request.files['file'].read()
+
+        # Convert the file to an image
+        img = Image.open(io.BytesIO(file))
+        img = img.convert('RGB')
+
+        # Resize the image to the input size expected by the model
+        img = img.resize((224, 224))
+
+        # Convert the image to a numpy array
+        x = np.array(img)
+
+        # Normalize the pixel values
+        x = x / 255.0
+
+        # Add a batch dimension to the array
+        x = np.expand_dims(x, axis=0)
+
+        # Make the prediction
+        pred = model.predict(x)
+        label = np.argmax(pred)
+        result = label
+        result=int(result)
+        if result == 0:
+            output = 'normal'
+        elif result==1:
+            output='Oral Cancer'
+
+        return jsonify({'result': output})
+    return render_template('analayse.html')
