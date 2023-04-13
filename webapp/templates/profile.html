@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+
+<br>
+
+  <div class="content">
+        
+        {% for profile in profile %}
+                <div class="alumnus"> 
+                    <b>                       
+                        <p class="name">
+                        <img src="{{ alumnus.avatar }}" class="rounded-circle" width="200" height="136">                
+                            <br>
+                            {{ profile.fullname }} 
+                            {{profile.email}}
+                        </p>    
+
+                    </b>
+
+                </div>
+        {% endfor %}
+
+  </div>
+
+  <br>
+{% endblock %}

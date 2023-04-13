@@ -1,3 +1,9 @@
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
 table {
     margin-bottom: 44px;
     width: 100%;
@@ -68,4 +74,84 @@ table h4 {
 
 .schedule-offset {
     color: #a9b2b9;
+}
+
+body {
+    background: #293f50;
+    color: #888;
+    font: 300 16px/22px "Lato", "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.sidebar {
+    position: fixed;
+    top: 10;
+    left: 0;
+    width: 200px;
+    height: 100%;
+    background-color: #f8f8f8;
+    padding: 2px;
+}
+
+#content {
+    margin-left: 200px;
+    /* Set margin to match sidebar width */
+    padding: 20px;
+}
+
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    padding: 2x;
+    margin-bottom: 10px;
+}
+
+.dropdown-content {
+    display: none;
+}
+
+.show {
+    display: block;
+}
+
+.sidebar {
+    background-color: #f8f8f8;
+}
+.sidebar-item {
+    padding: 2px;
+    margin-bottom: 5px;
+}
+.sidebar-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+.sidebar-item:hover {
+    background-color: #e6e6e6;
+}
+
+.sidebar {
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar {
+  width: 100%; /* Ensure the sidebar spans the full width of its container */
+  box-sizing: border-box; /* Include padding and border in the width */
+}
+.sidebar ul {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+.sidebar li {
+    padding-left: 10px;
+    /* Add left padding to create indentation */
+}
+
+body {
+    margin: 0;
+    padding: 0;
 }

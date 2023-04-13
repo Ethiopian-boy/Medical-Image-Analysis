@@ -98,3 +98,12 @@ def display_image(filename):
 #@views.route('/delete-image', methods=['POST'])
 #def delete_image(filename):
     
+    
+@views.route('/profile', methods=['GET'])
+@login_required
+def profile():
+    """Returns profile of user"""
+    id = request.args.get('id')
+    profile = db.session.execute(
+        'SELECT * FROM user WHERE id = :val', {'val': id})
+    return render_template("profile.html", user=current_user, profile=profile)

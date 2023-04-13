@@ -29,62 +29,38 @@
 <head>
   <style>
     /* Add any necessary CSS styles here */
-    #sidebar {
-      position: fixed;
-      top: 10;
-      left: 0;
-      width: 200px;
-      height: 100%;
-      background-color: #f8f8f8;
-      padding: 20px;
-    }
-
-    #content {
-      margin-left: 200px; /* Set margin to match sidebar width */
-      padding: 20px;
-    }
-
-    ul {
-      list-style-type: none;
-      padding: 0;
-    }
-
-    li {
-      margin-bottom: 10px;
-    }
-
-    .dropdown-content {
-      display: none;
-    }
-
-    .show {
-      display: block;
-    }
   </style>
 </head>
+
 <body>
   <!-- Sidebar -->
-  <div id="sidebar">
-    <ul>
-      <li><a href="#">Download</a></li>
+  <div class="sidebar">
+    <ul class="sidebar-item">
+      <li><a href="#" >Download</a></li>
+    </ul>
+    <ul class="sidebar-item">
       <li class="dropdown">
         <a href="#">Do Analyse &#9662;</a>
-        <ul class="dropdown-content">
+        <ul class="dropdown-content sidebar-list">
           <li><a href="xray_disease.html">Xray</a></li>
           <li><a href="CT_scan.html">CT-scan</a></li>
           <li><a href="photogenic_disease.html">Photogenic</a></li>
         </ul>
       </li>
     </ul>
+  <a class="nav-item nav-link" id="logout" href="/logout" style="text-align: right"> Logout</a>
+
   </div>
 
   <!-- Main content -->
+  <section>
   <div id="content">
     <!-- Add your login, signup, and logout components here -->
     <h1>Welcome to Homepage</h1>
     <!-- Add your login, signup, and logout components here -->
+    <h4>Our website is an object detection system that can identify and  classify abnormalities in medical images such as X-rays  and MRIs, and provide real-time recommendations for  diagnosis and treatment.</h4>
   </div>
-
+</section>
   <!-- Add any necessary JS code here to handle the dropdown functionality -->
   <script>
     // Get the dropdown menu and toggle it when the "Do Analyse" button is clicked
@@ -93,9 +69,9 @@
     });
 
     // Hide the dropdown content when hovering outside of it
-    document.querySelector('.dropdown').addEventListener('mouseleave', function() {
-      this.querySelector('.dropdown-content').classList.remove('show');
-    });
+    //document.querySelector('.dropdown').addEventListener('mouseleave', function() {
+     // this.querySelector('.dropdown-content').classList.remove('show');
+    //});
   </script>
 </body>
 
