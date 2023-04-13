@@ -1,7 +1,7 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
 %}
 
-<h1 align="center">Notes</h1>
+<h1 align="center">Recommendations</h1>
 <ul class="list-group list-group-flush" id="notes">
   {% if user%}
   {% for note in user.notes %}
@@ -24,29 +24,6 @@
 </form>
 <br />
 
-<div style="padding:20px;">
-<h2>Upload multiple images to analyse</h2>
-<form method="post" action="/upload" enctype="multipart/form-data">
-    <dl>
-        <p>
-            <input type="file" name="files[]" multiple="true" autocomplete="off" required>
-        </p>
-    </dl>
-    <p>
-        <input type="submit" value="Submit">
-    </p>
-</form>
- 
-{% if filenames %}
-    {% for filename in filenames %}
-        <div style="padding:20px;float:left;">
-            <img width="200" src="{{ url_for('views.display_image', filename=filename) }}">
-            <button type="button" class="close" onClick="deleteImage({{ filename }})>
-              <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-    {% endfor %}
-{% endif %}
-</div>
+
 
 {% endblock %}

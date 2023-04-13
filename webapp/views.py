@@ -39,6 +39,15 @@ def delete_note():
             db.session.commit()
 
     return jsonify({})
+@views.route('d1')
+def d1():
+    #model, predict function
+    return render_template('predict.html')
+
+
+@views.route('d2')
+def d2():
+    return render_template('predict.html')
 
 
 @views.route('/about')
@@ -73,6 +82,7 @@ def upload():
             basedir = os.path.abspath(os.path.dirname(__file__))
             file.save(os.path.join(basedir,
                                    app.config['UPLOAD_FOLDER'], filename))
+            #if current_user.id = 
         else:
             flash('Allowed image types are -> png, jpg, jpeg, gif')
             return redirect(request.url)
@@ -85,7 +95,6 @@ def display_image(filename):
     print('display_image filename: ' + filename)
     return redirect(url_for('static', filename='uploads/' + filename), code=301)
 
-@views.route('/delete-image', methods=['POST'])
-def delete_image(filename):
-    del(filename)
-    return redirect(url_for('static', filename='uploads/' + filename), code=301)
+#@views.route('/delete-image', methods=['POST'])
+#def delete_image(filename):
+    
