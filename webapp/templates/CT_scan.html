@@ -3,15 +3,22 @@
 <head>
     <meta charset="utf-8">
     <title>MRI Diseases</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>CT-scan Diseases</h1>
-    <p>List of Diseases:</p>
-    <ul>
-        <li><a href="{{url_for('views.brainStroke')}}"> Brain Stroke</a></li>
-        <li> <a href="{{ url_for('views.breastCancer')}}"> Breast Cancer</a> </li>
-        <li><a href="{{ url_for('views.lungCancer')}}"> Lung Cancer</a> </li>
-        <li><a href="{{ url_for('views.brainTumor')}}"> Brain Tumor </a> </li>
-    </ul>
+    <div class="container d-flex justify-content-center align-items-center min-vh-100">
+        <div class="box p-4">
+            <h1 class="text-center">CT-scan Diseases</h1>
+            <p>List of Diseases:</p>
+            <ul>
+                <li><a href="{{url_for('views.brainStroke')}}"> Brain Stroke</a></li>
+                <li> <a href="{{ url_for('views.breastCancer')}}"> Breast Cancer</a> </li>
+                <li><a href="{{ url_for('views.lungCancer')}}"> Lung Cancer</a> </li>
+                <li><a href="{{ url_for('views.brainTumor')}}"> Brain Tumor </a> </li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/5.3.0/js/bootstrap.min.js"></script>
 </body>
 </html>
