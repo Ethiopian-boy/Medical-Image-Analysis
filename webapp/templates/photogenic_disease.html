@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Photogenic Diseases</title>
+    <script>
+        function redirectToAnalysePage() {
+            var selectedDisease = document.getElementById("disease").value;
+            if (selectedDisease) {
+                window.location.href = "analyse.html?disease=" + encodeURIComponent(selectedDisease);
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>Photogenic Diseases</h1>
+    <p>List of Diseases:</p>
+    <ul>
+        <li>Leukemia</li>
+        <li>Breast Cancer</li>
+        <li>Ovarian Cancer</li>
+    </ul>
+    <label for="disease">Choose a Disease:</label>
+    <select id="disease" name="disease">
+        <option value="">-- Select a disease --</option>
+        <option value="leukemia">Leukemia</option>
+        <option value="breast-cancer">Breast Cancer</option>
+        <option value="ovarian-cancer">Ovarian Cancer</option>
+    </select><br>
+    <input type="button" value="Analyse" onclick="redirectToAnalysePage()">
+</body>
+</html>

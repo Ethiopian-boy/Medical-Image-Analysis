@@ -1,7 +1,7 @@
 {% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
 %}
 
-<h1 align="center">Recommendations</h1>
+<!-- <h1 align="center">Recommendations</h1>
 <ul class="list-group list-group-flush" id="notes">
   {% if user%}
   {% for note in user.notes %}
@@ -24,6 +24,79 @@
 </form>
 <br />
 
+-->
 
+<head>
+  <style>
+    /* Add any necessary CSS styles here */
+    #sidebar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 200px;
+      height: 100%;
+      background-color: #f8f8f8;
+      padding: 20px;
+    }
+
+    #content {
+      margin-left: 200px; /* Set margin to match sidebar width */
+      padding: 20px;
+    }
+
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    li {
+      margin-bottom: 10px;
+    }
+
+    .dropdown-content {
+      display: none;
+    }
+
+    .show {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div id="sidebar">
+    <ul>
+      <li><a href="#">Download</a></li>
+      <li class="dropdown">
+        <a href="#">Do Analyse &#9662;</a>
+        <ul class="dropdown-content">
+          <li><a href="xray_disease.html">Xray</a></li>
+          <li><a href="CT_scan.html">CT-scan</a></li>
+          <li><a href="photogenic_disease.html">Photogenic</a></li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+
+  <!-- Main content -->
+  <div id="content">
+    <!-- Add your login, signup, and logout components here -->
+    <h1>Welcome to Homepage</h1>
+    <!-- Add your login, signup, and logout components here -->
+  </div>
+
+  <!-- Add any necessary JS code here to handle the dropdown functionality -->
+  <script>
+    // Get the dropdown menu and toggle it when the "Do Analyse" button is clicked
+    document.querySelector('.dropdown').addEventListener('click', function() {
+      this.querySelector('.dropdown-content').classList.toggle('show');
+    });
+
+    // Hide the dropdown content when hovering outside of it
+    document.querySelector('.dropdown').addEventListener('mouseleave', function() {
+      this.querySelector('.dropdown-content').classList.remove('show');
+    });
+  </script>
+</body>
 
 {% endblock %}

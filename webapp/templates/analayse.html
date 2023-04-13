@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Medical Form</title>
+</head>
+<body>
+    <h1>Medical Form</h1>
+    <form action="/submit" method="post">
+        <label for="patient-name">Patient Name:</label>
+        <input type="text" id="patient-name" name="patientName" required><br>
+        
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" required><br>
+        
+        <label for="previous-medication">Previous Medication:</label>
+        <input type="text" id="previous-medication" name="previousMedication"><br>
+        <input type="button" value="Submit" onclick="redirectToDiseasesPage()">
+    </form>
+
+    <div style="padding:20px;">
+<h2>Upload multiple images</h2>
+<form method="post" action="/upload" enctype="multipart/form-data">
+    <dl>
+        <p>
+            <input type="file" name="files[]" multiple="true" autocomplete="off" required>
+        </p>
+    </dl>
+    <p>
+        <input type="submit" value="Submit">
+    </p>
+</form>
+ 
+{% if filenames %}
+    {% for filename in filenames %}
+        <div style="padding:20px;float:left;">
+            <img width="500" src="{{ url_for('display_image', filename=filename) }}"> 
+        </div>
+    {% endfor %}
+{% endif %}
+</div>
+</body>
+</html>

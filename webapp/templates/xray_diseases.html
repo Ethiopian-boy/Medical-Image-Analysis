@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>X-ray Diseases</title>
+    <script>
+        function redirectToAnalysePage() {
+            var selectedDisease = document.getElementById("disease").value;
+            if (selectedDisease) {
+                window.location.href = "analyse.html?disease=" + encodeURIComponent(selectedDisease);
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>X-ray Diseases</h1>
+    <p>List of Diseases:</p>
+    <ul>
+        <li>Bone Fracture</li>
+        <li>Pneumonia</li>
+        <li>Tuberculosis</li>
+    </ul>
+    <label for="disease">Choose a Disease:</label>
+    <select id="disease" name="disease">
+        <option value="">-- Select a disease --</option>
+        <option value="bone-fracture">Bone Fracture</option>
+        <option value="pneumonia">Pneumonia</option>
+        <option value="tuberculosis">Tuberculosis</option>
+    </select><br>
+    <input type="button" value="Analyse" onclick="redirectToAnalysePage()">
+</body>
+</html>
