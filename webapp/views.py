@@ -141,7 +141,7 @@ def pneumonia():
         elif result == 1:
             output='PNEUMONIA detected!!!'
         return jsonify({'result': output})
-    return render_template('deploy.html')
+    return render_template('analayse.html')
 
 
 @views.route('/bones', methods=['POST', 'GET'])
@@ -181,7 +181,7 @@ def bones():
         elif result == 1:
             output='Everything seems right'
         return jsonify({'result': output})
-    return render_template('deploy.html')
+    return render_template('analayse.html')
 
 
 
@@ -222,7 +222,7 @@ def tuberculosis():
         elif result == 1:
             output='TUBERCULOSIS detected!!!'
         return jsonify({'result': output})
-    return render_template('deploy.html')
+    return render_template('analayse.html')
 
 
 
@@ -268,7 +268,7 @@ def brainTumor():
             output='We think you have a PITUITARY'
 
         return jsonify({'result': output})
-    return render_template('deploy.html')
+    return render_template('analayse.html')
 
 
 
@@ -312,7 +312,7 @@ def brainStroke():
         elif result == 1:
             output='brain STroke detected!!!'
         return jsonify({'result': output})
-    return render_template('deploy.html')
+    return render_template('analayse.html')
 
 @views.route('/chestCancer', methods=['POST', 'GET'])
 def chestCancer():
@@ -353,7 +353,7 @@ def chestCancer():
             output='We think you have squamous_cell_carcinoma'
 
         return jsonify({'result': output})
-    return render_template('deploy.html')
+    return render_template('analayse.html')
 
 
 
@@ -393,10 +393,10 @@ def breastCancer():
 
 
         return jsonify({'result': output})
-    return render_template('deploy.html')
+    return render_template('analayse.html')
 
 
-@views.route('/leukomia', methods=['POST', 'GET'])
+@views.route('/leukemia', methods=['POST', 'GET'])
 def leukemia():
     model = tf.keras.models.load_model('/home/belvisk/Documents/models/leukemia_model.h5')
     if request.method == 'POST':
@@ -436,4 +436,4 @@ def leukemia():
 
 
         return jsonify({'result': output})
-    return render_template('deploy.html')
+    return render_template('analayse.html')
