@@ -28,7 +28,7 @@
 
 * **Web Framework**: The system employs a web framework, Flask, to build the user-friendly interface and handling HTTP requests and responses.
 
-* MySQL**: The system uses MySQL, for storing and managing medical image data, detected abnormalities, and recommendations.
+* **MySQL**: The system uses MySQL, for storing and managing medical image data, detected abnormalities, and recommendations.
 
 * **HTML5, CSS, JavaScript, Bootstrap**: The system utilizes HTML5, CSS, JavaScript, and the Bootstrap framework for front-end development.
 
