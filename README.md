@@ -24,7 +24,7 @@
 
 * **Deep Learning Framework**: The system utilizes a deep learning framework TensorFlow, to implement the object detection and classification algorithms.
 
-* **Image Processing Libraries**: The system uses image processing library PIL, to pre-process the medical images before feeding them into the deep learning models. The library provide functions for image resizing, normalization, and augmentation, which are essential for improving the accuracy and robustness of the models.
+* **Image Processing Libraries**: The system uses image processing library PIL and CV2, to pre-process the medical images before feeding them into the deep learning models. The library provide functions for image resizing, normalization, and augmentation, which are essential for improving the accuracy and robustness of the models.
 
 * **Web Framework**: The system employs a web framework, Flask, to build the user-friendly interface and handling HTTP requests and responses.
 
